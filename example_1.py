@@ -1,15 +1,15 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import avg
 
 if __name__ == '__main__':
-    spark = SparkSession \
-        .builder \
-        .appName("Python Spark create RDD example") \
-        .config("spark.some.config.option", "some-value") \
-        .getOrCreate()
-
-    df = spark.sparkContext.parallelize([(1, 2, 3, 'a b c'),
-                                         (4, 5, 6, 'd e f'),
-                                         (7, 8, 9, 'g h i')]) \
-        .toDF(['col1', 'col2', 'col3', 'col4'])
-
-    df.show()
+    # Create a DataFrame using SparkSession
+    spark = (SparkSession
+             .builder
+             .appName("AuthorsAges")
+             .getOrCreate())
+    # Create a DataFrame
+    data_df = spark.createDataFrame([("Brooke", 20), ("Denny", 31), ("Jules", 30), ("TD", 35), ("Brooke", 25)], ["name", "age"])
+    # Group the same names together, aggregate their ages, and compute an average
+    avg_df = data_df.groupBy("name").agg(avg("age"))
+    # Show the results of the final execution
+    avg_df.show()

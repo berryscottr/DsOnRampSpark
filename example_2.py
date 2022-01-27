@@ -1,12 +1,12 @@
 from pyspark.sql import SparkSession
+from pyspark.sql import Row
 
 if __name__ == '__main__':
-    spark = SparkSession \
-        .builder \
-        .appName("Python Spark create RDD example") \
-        .config("spark.some.config.option", "some-value") \
-        .getOrCreate()
-
-    myData = spark.sparkContext.parallelize([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)])
-
-    print(myData.collect())
+    # Create a SparkSession
+    spark = (SparkSession
+             .builder
+             .appName("AuthorsStates")
+             .getOrCreate())
+    rows = [Row("Matei Zaharia", "CA"), Row("Reynold Xin", "CA")]
+    authors_df = spark.createDataFrame(rows, ["Authors", "State"])
+    authors_df.show()
