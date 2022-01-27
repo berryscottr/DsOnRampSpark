@@ -2,7 +2,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql import Row
 
 if __name__ == '__main__':
-    # Create a SparkSession
     spark = (SparkSession
              .builder
              .appName("AuthorsStates")
